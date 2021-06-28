@@ -1,3 +1,3 @@
-const addTicket = require("./api/util/dbhandlers/addTicket");
+const removeTicket = require("./api/util/dbhandlers/removeTicket");
 
-addTicket("Num2", "Name2");
+removeTicket("Num2", "Name2");
