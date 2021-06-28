@@ -8,13 +8,14 @@ app.use(express.urlencoded({extended: false}))
 
 app.use(express.json());
 
+//Route any /tickets requests
 const ticketRoutes = require('./api/routes/tickets');
 const getDateTime = require('./api/util/getDateTime');
 app.use('/tickets', ticketRoutes)
 
+//Any request that makes it here is ~no bueno~
 app.use((req, res, next ) => {
 
-  var datetime = new Date();
   console.log("\n\n" + getDateTime() + " Invalid request:");
 
   const error = new Error('Invalid request.');
@@ -22,6 +23,7 @@ app.use((req, res, next ) => {
   next(error);
 })
 
+//If you get a 500 back, something is wrong with the code itself.
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
