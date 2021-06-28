@@ -1,15 +1,18 @@
-function removeTicket(ticketNumber, name){
+function removeTicket(ticketNumber, name, isLast){
     var fs = require("fs");
     var currentData;
     fs.readFile("activeTickets.txt", "utf-8", (err, buf) => {
         currentData = buf.toString();
 
-        console.log(currentData);
-
-
         if(!currentData.includes(ticketNumber)) return;
         else{
-            var replaceString = ticketNumber + " - " + name;
+            if(isLast){
+                var replaceString = ticketNumber + " - " + name;
+            }
+            else{
+                var replaceString = ticketNumber + " - " + name + '\n';
+            }
+            
 
             currentData = currentData.replace(replaceString, "");
 

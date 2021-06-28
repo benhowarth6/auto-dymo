@@ -25,17 +25,33 @@ router.post('/', (req, res, next) => {
 
     if(ticketInfo.authKey === 'key123'){
 
-        addTicket(ticketInfo.ticketNumber, ticketInfo.user);
+        var ticketNumRITM = ticketInfo.ticketNumber.substring(0, 4);
+        var ticketNumINC = ticketInfo.ticketNumber.substring(0, 3);
 
-        for(let i = 0; i < numberOfLabels; i++){
-            labelPrinter(ticketInfo.ticketNumber, ticketInfo.user);
-            console.log('Label printed')
+        var validCont = false;
+
+        if((ticketNumRITM === 'RITM' && !isNaN(ticketInfo.ticketNumber.substring(5, ticketInfo.ticketNumber.length))) 
+        || (ticketNumINC === 'INC' && !isNaN(ticketInfo.ticketNumber.substring(4, ticketInfo.ticketNumber.length)))) validCont = true;
+
+        if(validCont){
+            addTicket(ticketInfo.ticketNumber, ticketInfo.user);
+
+            for(let i = 0; i < numberOfLabels; i++){
+                labelPrinter(ticketInfo.ticketNumber, ticketInfo.user);
+                console.log('Label printed')
+            }
+            
+            res.status(200).json({
+                message: 'Received data',
+                ticketInfo: ticketInfo
+            })
         }
-        
-        res.status(200).json({
-            message: 'Received data',
-            ticketInfo: ticketInfo
-        })
+        else{
+            res.status(400).json({
+                message: 'Bad ticket number syntax',
+                ticketInfo: ticketInfo
+            })
+        }
     }
     else{
         console.log('Authentication failed')
@@ -53,26 +69,43 @@ router.delete('/:ticketNumber', (req, res, next) => {
         ticketNumber: req.params.ticketNumber,
         user: req.body.user,
         authKey: req.body.authKey
-    }
-
-    console.log(ticketInfo);
+    } 
 
     if(ticketInfo.authKey === 'key123'){
 
         let tickets = getTickets();
 
-        //Shorten string to everything after the ticket number
-        let ticketsShortened = tickets.substring(tickets.indexOf(ticketInfo.ticketNumber));
-            
-        //Get the first name in the string 
-        ticketInfo.user = ticketsShortened.substring(ticketsShortened.indexOf('-') + 2, ticketsShortened.indexOf('\n'));  
+        if(tickets.includes(ticketInfo.ticketNumber)){
 
-        removeTicket(ticketInfo.ticketNumber, ticketInfo.user);
+            //Shorten string to everything after the ticket number
+            let ticketsShortened = tickets.substring(tickets.indexOf(ticketInfo.ticketNumber));
+                
+            //Get the first name in the string 
+            if(ticketsShortened.includes('\n')){
+                ticketInfo.user = ticketsShortened.substring(ticketsShortened.indexOf('-') + 2, ticketsShortened.indexOf('\n'));
+                removeTicket(ticketInfo.ticketNumber, ticketInfo.user, false);
+            }
+            else{
+                ticketInfo.user = ticketsShortened.substring(ticketsShortened.indexOf('-') + 2, ticketsShortened.length);
+                removeTicket(ticketInfo.ticketNumber, ticketInfo.user, true);
+            }
+            
+            console.log(ticketInfo);
         
-        res.status(200).json({
-            message: 'Ticket deleted',
-            ticketInfo: ticketInfo
-        })
+            res.status(200).json({
+                message: 'Ticket deleted',
+                ticketInfo: ticketInfo
+            })
+        }
+        else{
+
+            console.log(ticketInfo);
+
+            res.status(404).json({
+                message: 'Ticket doesn\'t exist',
+                ticketInfo: ticketInfo
+            })
+        }  
     }
     else{
         console.log('Authentication failed')
