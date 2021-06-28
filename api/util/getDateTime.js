@@ -21,6 +21,7 @@ function getDateTime(){
     // current seconds
     let seconds = date_ob.getSeconds();
 
+    //Return formatted date and time for console
     return("[" + month + "-" + date + " " + hours + ":" + minutes + "]");
 }
 

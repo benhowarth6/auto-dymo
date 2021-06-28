@@ -7,46 +7,62 @@ const router = express.Router();
 const labelPrinter = require("../util/dymoLabel");
 const getDateTime = require('../util/getDateTime');
 
+//Handle POST requests
 router.post('/', (req, res, next) => {
 
+    //New request logging
     console.log("\n\n" + getDateTime() + " New POST request:");
 
+    //Gets ticket info from the POST
     const ticketInfo = {
         ticketNumber: req.body.ticketNumber,
         user: req.body.user,
         authKey: req.body.authKey
     }
 
+    //Log the info
     console.log(ticketInfo);
+
+    //How many labels should be printed - default is 2. SNow will not POST this value.
     var numberOfLabels;
 
     if(req.body.numberOfLabels === undefined) numberOfLabels = 2;
     else numberOfLabels = req.body.numberOfLabels;
 
+    //Check for auth key - Waiting on helming for a _real_ auth key
     if(ticketInfo.authKey === 'key123'){
 
+        //Substrings to test for validity in ticket number
         var ticketNumRITM = ticketInfo.ticketNumber.substring(0, 4);
         var ticketNumINC = ticketInfo.ticketNumber.substring(0, 3);
 
+        //Conditions must be met to continue
         var validCont = false;
 
         if((ticketNumRITM === 'RITM' && !isNaN(ticketInfo.ticketNumber.substring(5, ticketInfo.ticketNumber.length))) 
         || (ticketNumINC === 'INC' && !isNaN(ticketInfo.ticketNumber.substring(4, ticketInfo.ticketNumber.length)))) validCont = true;
 
+        //If conditions are met
         if(validCont){
             addTicket(ticketInfo.ticketNumber, ticketInfo.user);
 
+            //Print however many labels need to be printed
             for(let i = 0; i < numberOfLabels; i++){
+                //Send the print command
                 labelPrinter(ticketInfo.ticketNumber, ticketInfo.user);
+                //Log each print
                 console.log('Label printed')
             }
             
+            //Send success response
             res.status(200).json({
                 message: 'Received data',
                 ticketInfo: ticketInfo
             })
         }
         else{
+
+            //Bad syntax in POST request
             res.status(400).json({
                 message: 'Bad ticket number syntax',
                 ticketInfo: ticketInfo
@@ -54,6 +70,8 @@ router.post('/', (req, res, next) => {
         }
     }
     else{
+
+        //Bad auth key was provided
         console.log('Authentication failed')
         res.status(401).json({
             message: 'Invalid POST key provided'
@@ -62,19 +80,26 @@ router.post('/', (req, res, next) => {
     
 })
 
+//Handle DELETE requests
 router.delete('/:ticketNumber', (req, res, next) => {
+
+    //Log the new request
     console.log("\n\n" + getDateTime() + " New DELETE request:");
 
+    //Grab basic ticket info
     const ticketInfo = {
         ticketNumber: req.params.ticketNumber,
         user: req.body.user,
         authKey: req.body.authKey
     } 
 
+    //Auth key check
     if(ticketInfo.authKey === 'key123'){
 
+        //Grab a list of all active tickets
         let tickets = getTickets();
 
+        //If the ticket is active
         if(tickets.includes(ticketInfo.ticketNumber)){
 
             //Shorten string to everything after the ticket number
@@ -90,8 +115,10 @@ router.delete('/:ticketNumber', (req, res, next) => {
                 removeTicket(ticketInfo.ticketNumber, ticketInfo.user, true);
             }
             
+            //log the information
             console.log(ticketInfo);
         
+            //Success response
             res.status(200).json({
                 message: 'Ticket deleted',
                 ticketInfo: ticketInfo
@@ -99,8 +126,10 @@ router.delete('/:ticketNumber', (req, res, next) => {
         }
         else{
 
+            //Log the invalid ticket
             console.log(ticketInfo);
 
+            //Doesn't exist response, send bad data back to user
             res.status(404).json({
                 message: 'Ticket doesn\'t exist',
                 ticketInfo: ticketInfo
@@ -108,6 +137,7 @@ router.delete('/:ticketNumber', (req, res, next) => {
         }  
     }
     else{
+        //Auth key failed
         console.log('Authentication failed')
         res.status(401).json({
             message: 'Invalid POST key provided'
@@ -116,19 +146,26 @@ router.delete('/:ticketNumber', (req, res, next) => {
 
 })
 
+//Handle GET requests
 router.get('/:ticketNumber', (req, res, next) => {
 
+    //log the new request
     console.log("\n\n" + getDateTime() + " New GET request:");
 
+    //Basic ticket info
     const ticketInfo = {
         ticketNumber: req.params.ticketNumber,
         user : '',
         authKey: req.body.authKey
     }
 
+    //Auth
     if(ticketInfo.authKey === 'key123'){
 
+        //Grab all active tickets
         let tickets = getTickets();
+
+        //Make sure ticket exists
         if(tickets.includes(ticketInfo.ticketNumber)){
 
             //Ticket exists, find user from ticket number
@@ -139,14 +176,17 @@ router.get('/:ticketNumber', (req, res, next) => {
             //Get the first name in the string 
             ticketInfo.user = ticketsShortened.substring(ticketsShortened.indexOf('-') + 2, ticketsShortened.indexOf('\n'));   
 
+            //log ticket info
+            console.log(ticketInfo);
+
+            //Success response
             res.status(200).json({
                 message: 'Ticket exists in DB',
                 ticketInfo: ticketInfo
             });
-
-            console.log(ticketInfo);
         }
         else{
+            //Ticket not found - 404
             res.status(404).json({
                 message: 'Ticket doesn\'t exist in DB',
                 ticketInfo: ticketInfo
@@ -154,6 +194,7 @@ router.get('/:ticketNumber', (req, res, next) => {
         }
     }
     else{
+        //Failed auth key
         console.log('Authentication failed')
         res.status(401).json({
             message: 'Invalid POST key provided'

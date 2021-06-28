@@ -1,5 +1,6 @@
 function printLabel(ticketNumber, name){
 
+    //This library is so horrible jesus christ
     const Dymo = require('dymojs'), dymo = new Dymo();
 
     var labelXml = `<?xml version="1.0" encoding="utf-8"?>\
@@ -47,6 +48,7 @@ function printLabel(ticketNumber, name){
         </ObjectInfo>\
     </DieCutLabel>`;
 
+    //Name is case sensitive
     dymo.print('DYMO LabelWriter 450', labelXml);
 }
 
