@@ -247,7 +247,7 @@ router.get('/', (req, res, next) => {
     }
 
     //Auth
-    if(ticketInfo.authKey === 'key123' || ticketInfo.authKey != 'key123'){
+    if(logIp.substring(0,6) === '129.21' || ticketInfo.authKey === 'key123'){
 
         //Get list of all active tickets
         var tickets = getTickets();
@@ -270,7 +270,7 @@ router.get('/', (req, res, next) => {
         //Failed auth key
         console.log('Authentication failed')
         res.status(401).json({
-            message: 'Invalid auth key provided'
+            message: 'Invalid authentication - are you inside RIT?'
         })
     }
 
