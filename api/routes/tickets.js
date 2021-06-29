@@ -11,8 +11,13 @@ const { restart } = require('nodemon');
 //Handle POST requests
 router.post('/', (req, res, next) => {
 
+    //Log the IP of invalid requests - skimmer catching
+    var logIp = req.socket.remoteAddress;
+    //If the IP begins with "::ffff:", trim it off
+    if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7)
+
     //New request logging
-    console.log("\n\n" + getDateTime() + " New POST request:");
+    console.log("\n\n" + getDateTime() + " New POST request from " + logIp + ":");
 
     //Gets ticket info from the POST
     const ticketInfo = {
@@ -97,8 +102,13 @@ router.post('/', (req, res, next) => {
 //Handle DELETE requests
 router.delete('/:ticketNumber', (req, res, next) => {
 
+    //Log the IP of invalid requests - skimmer catching
+    var logIp = req.socket.remoteAddress;
+    //If the IP begins with "::ffff:", trim it off
+    if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7)
+
     //Log the new request
-    console.log("\n\n" + getDateTime() + " New DELETE request:");
+    console.log("\n\n" + getDateTime() + " New DELETE request from " + logIp + ":");
 
     //Grab basic ticket info
     const ticketInfo = {
@@ -163,8 +173,13 @@ router.delete('/:ticketNumber', (req, res, next) => {
 //Handle GET requests
 router.get('/:ticketNumber', (req, res, next) => {
 
-    //log the new request
-    console.log("\n\n" + getDateTime() + " New GET request (specific ticket):");
+    //Log the IP of invalid requests - skimmer catching
+    var logIp = req.socket.remoteAddress;
+    //If the IP begins with "::ffff:", trim it off
+    if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7)
+
+    //Log the new request
+    console.log("\n\n" + getDateTime() + " New GET request (specific ticket) from " + logIp + ":");
 
     //Basic ticket info
     const ticketInfo = {
@@ -218,8 +233,13 @@ router.get('/:ticketNumber', (req, res, next) => {
 
 router.get('/', (req, res, next) => {
 
-    //log the new request
-    console.log("\n\n" + getDateTime() + " New GET request (specific ticket):");
+    //Log the IP of invalid requests - skimmer catching
+    var logIp = req.socket.remoteAddress;
+    //If the IP begins with "::ffff:", trim it off
+    if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7)
+
+    //Log the new request
+    console.log("\n\n" + getDateTime() + " New GET request (all tickets) from " + logIp + ":");
 
     //Basic ticket info
     const ticketInfo = {
@@ -227,7 +247,7 @@ router.get('/', (req, res, next) => {
     }
 
     //Auth
-    if(ticketInfo.authKey === 'key123'){
+    if(ticketInfo.authKey === 'key123' || ticketInfo.authKey != 'key123'){
 
         //Get list of all active tickets
         var tickets = getTickets();

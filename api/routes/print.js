@@ -7,7 +7,12 @@ const router = express.Router()
 //Handle DELETE requests
 router.put('/:ticketNumber', (req, res, next) => {
 
-    console.log("\n\n" + getDateTime() + " New PUT (print) request:");
+    //Log the IP of invalid requests - skimmer catching
+    var logIp = req.socket.remoteAddress;
+    //If the IP begins with "::ffff:", trim it off
+    if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7)
+
+    console.log("\n\n" + getDateTime() + " New PUT (print) request from " + logIp + ":");
 
     const numberOfLabels = req.body.numberOfLabels;
 

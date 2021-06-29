@@ -25,7 +25,7 @@ app.use((req, res, next ) => {
   //Log the IP of invalid requests - skimmer catching
   var logIp = req.socket.remoteAddress;
   //If the IP begins with "::ffff:", trim it off
-  if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7)
+  if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7);
 
   //Log the time and IP
   console.log("\n\n" + getDateTime() + " Invalid request from " + logIp + ":");
