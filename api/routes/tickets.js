@@ -270,7 +270,7 @@ router.get('/', (req, res, next) => {
         //Failed auth key
         console.log('Authentication failed')
         res.status(401).json({
-            message: 'Invalid authentication - are you inside RIT?'
+            message: 'Invalid authentication'
         })
     }
 
