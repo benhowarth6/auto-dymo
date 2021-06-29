@@ -8,15 +8,27 @@ app.use(express.urlencoded({extended: false}))
 
 app.use(express.json());
 
+const getDateTime = require('./api/util/getDateTime');
+
 //Route any /tickets requests
 const ticketRoutes = require('./api/routes/tickets');
-const getDateTime = require('./api/util/getDateTime');
 app.use('/tickets', ticketRoutes)
+
+//Route any /print requests
+const printRoutes = require('./api/routes/print');
+app.use('/print', printRoutes);
+
 
 //Any request that makes it here is ~no bueno~
 app.use((req, res, next ) => {
 
-  console.log("\n\n" + getDateTime() + " Invalid request:");
+  //Log the IP of invalid requests - skimmer catching
+  var logIp = req.socket.remoteAddress;
+  //If the IP begins with "::ffff:", trim it off
+  if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7)
+
+  //Log the time and IP
+  console.log("\n\n" + getDateTime() + " Invalid request from " + logIp + ":");
 
   const error = new Error('Invalid request.');
   error.status = 404;

@@ -6,6 +6,7 @@ const router = express.Router();
 
 const labelPrinter = require("../util/dymoLabel");
 const getDateTime = require('../util/getDateTime');
+const { restart } = require('nodemon');
 
 //Handle POST requests
 router.post('/', (req, res, next) => {
@@ -44,21 +45,34 @@ router.post('/', (req, res, next) => {
 
         //If conditions are met
         if(validCont){
-            addTicket(ticketInfo.ticketNumber, ticketInfo.user);
 
-            //Print however many labels need to be printed
-            for(let i = 0; i < numberOfLabels; i++){
-                //Send the print command
-                labelPrinter(ticketInfo.ticketNumber, ticketInfo.user);
-                //Log each print
-                console.log('Label printed')
+            var tickets = getTickets();
+
+            if(!tickets.includes(ticketInfo.ticketNumber)){
+                addTicket(ticketInfo.ticketNumber, ticketInfo.user);
+
+                //Print however many labels need to be printed
+                for(let i = 0; i < numberOfLabels; i++){
+                    //Send the print command
+                    labelPrinter(ticketInfo.ticketNumber, ticketInfo.user);
+                    //Log each print
+                    console.log('Label printed')
+                }
+                
+                //Send success response
+                res.status(200).json({
+                    message: 'Ticket was POSTed',
+                    ticketInfo: ticketInfo
+                })                
             }
-            
-            //Send success response
-            res.status(200).json({
-                message: 'Received data',
-                ticketInfo: ticketInfo
-            })
+            else{
+                //Send success response
+                res.status(409).json({
+                    message: 'Ticket already exists in the DB',
+                    ticketInfo: ticketInfo
+                })   
+            }
+
         }
         else{
 
@@ -150,7 +164,7 @@ router.delete('/:ticketNumber', (req, res, next) => {
 router.get('/:ticketNumber', (req, res, next) => {
 
     //log the new request
-    console.log("\n\n" + getDateTime() + " New GET request:");
+    console.log("\n\n" + getDateTime() + " New GET request (specific ticket):");
 
     //Basic ticket info
     const ticketInfo = {
@@ -201,5 +215,46 @@ router.get('/:ticketNumber', (req, res, next) => {
         })
     }
 })
+
+router.get('/', (req, res, next) => {
+
+    //log the new request
+    console.log("\n\n" + getDateTime() + " New GET request (specific ticket):");
+
+    //Basic ticket info
+    const ticketInfo = {
+        authKey: req.body.authKey
+    }
+
+    //Auth
+    if(ticketInfo.authKey === 'key123'){
+
+        //Get list of all active tickets
+        var tickets = getTickets();
+
+        //Send back the list - list will be sent in the following format:
+        /*     
+            {
+            "message": "OK",
+            "tickets": "RITM0012345 - User Name\nRITM0012346 - Test user\n"
+            }
+        */
+
+        res.status(200).json({
+            message: 'OK',
+            tickets: tickets
+        })
+
+    }
+    else{
+        //Failed auth key
+        console.log('Authentication failed')
+        res.status(401).json({
+            message: 'Invalid auth key provided'
+        })
+    }
+
+})
+
 
 module.exports = router;
