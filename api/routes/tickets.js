@@ -50,7 +50,7 @@ router.post('/', (req, res, next) => {
         if(!ticketInfo.user.match(letters)){
             //Bad syntax in POST request
             res.status(400).json({
-                message: 'Invalid syntax in "user" field',
+                message: 'Invalid syntax in \"user\" field',
                 ticketInfo: ticketInfo
             })
             return;

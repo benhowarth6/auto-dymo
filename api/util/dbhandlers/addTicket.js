@@ -7,6 +7,7 @@ function addTicket(ticketNumber, name){
     var currentData;
 
     //Read the file
+    doesDbExist();
     fs.readFile("activeTickets.txt", "utf-8", (err, buf) => {
         
         if(err) console.log("\n\n" + getDateTime() + " Error in reading data from DB: " + err2);
