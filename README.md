@@ -3,6 +3,16 @@
 
 This server is meant to be running on DJGorilla and SlimMonkey 24/7, and will handle automatically printing tickets when necessary in the workflow. It also talks to the client program when a print or delete is asked.
 
+### **Setup for the server**
+
+* Port 3000 will need to be opened, or there will need to be another port [set as an environment variable](https://stackoverflow.com/questions/13333221/how-to-change-value-of-process-env-port-in-node-js).
+* The current dependencies are required, and must be installed before use (`npm install -g [packagename]`). An up-to-date list of dependencies can always be found at the botton of `./package.json`.
+    * `express`
+    * `dymojs`
+    * `morgan`
+    * `nodemon`
+* `npm start` should be used to start the server, as this will listen for local changes to the code, and restart the server automatically.
+
 ### **Valid HTTP requests**
 
 ## **`[host or ip]:3000/tickets`**

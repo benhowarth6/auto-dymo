@@ -1,3 +1,5 @@
+const doesDbExist = require("./doesDbExist");
+
 function addTicket(ticketNumber, name){
     var fs = require("fs");
     
@@ -7,6 +9,8 @@ function addTicket(ticketNumber, name){
     //Read the file
     fs.readFile("activeTickets.txt", "utf-8", (err, buf) => {
         
+        if(err) console.log("\n\n" + getDateTime() + " Error in reading data from DB: " + err2);
+
         //Store
         currentData = buf.toString();
 
@@ -17,9 +21,9 @@ function addTicket(ticketNumber, name){
             var data = ticketNumber + " - " + name + "\n";
             
             //Write out - appending
-            fs.appendFile("activeTickets.txt", data, (err) => {
+            fs.appendFile("activeTickets.txt", data, (err2) => {
                 //Log any errors
-                if (err) console.log(err);
+                if (err2) console.log("\n\n" + getDateTime() + " Error in adding ticket to DB: " + err2);
             })
         }
     });

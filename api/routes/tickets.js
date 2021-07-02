@@ -45,6 +45,17 @@ router.post('/', (req, res, next) => {
         //Conditions must be met to continue
         var validCont = false;
 
+        //User needs to not contain any linebreaks - will break detection methods
+        var letters = /^[a-zA-Z\s]*$/;
+        if(!ticketInfo.user.match(letters)){
+            //Bad syntax in POST request
+            res.status(400).json({
+                message: 'Invalid syntax in "user" field',
+                ticketInfo: ticketInfo
+            })
+            return;
+        }
+
         if((ticketNumRITM === 'RITM' && !isNaN(ticketInfo.ticketNumber.substring(5, ticketInfo.ticketNumber.length))) 
         || (ticketNumINC === 'INC' && !isNaN(ticketInfo.ticketNumber.substring(4, ticketInfo.ticketNumber.length)))) validCont = true;
 
