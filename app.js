@@ -8,14 +8,14 @@ app.use(express.urlencoded({extended: false}))
 
 app.use(express.json());
 
-const getDateTime = require('./api/util/getDateTime');
+const getDateTime = require('./lib/util/getDateTime');
 
 //Route any /tickets requests
-const ticketRoutes = require('./api/routes/tickets');
+const ticketRoutes = require('./lib/routes/tickets');
 app.use('/tickets', ticketRoutes)
 
 //Route any /print requests
-const printRoutes = require('./api/routes/print');
+const printRoutes = require('./lib/routes/print');
 app.use('/print', printRoutes);
 
 

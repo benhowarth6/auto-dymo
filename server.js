@@ -1,6 +1,6 @@
 const http = require('http');
-const getDateTime = require('./api/util/getDateTime');
 const app = require('./app');
+const getDateTime = require('./lib/util/getDateTime');
 
 //Can overrwite port with an ENV var, otherwise will use 3000
 const port = process.env.PORT || 3000;
