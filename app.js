@@ -28,10 +28,18 @@ app.use('/restart', (req, res, next) => {
 
   var authed = checkAuth(res, req, authInfo.authKey);
   if (authed){
-    returnCode(200, res, authInfo);
+    returnCode(200, res, authInfo, "Restarting...");
     //Restart app, not implemented lmfao
   }
+})
 
+//Scraper deterrent
+app.use('/favicon.ico', (req, res, next) => {
+  returnCode(404, res, req.body, "File does not exist. Stop scraping.")
+})
+
+app.use('/', (req, res, next) => {
+    returnCode(404, res, req.body, "Site does not exist. Stop scraping.")
 })
 
 //Any request that makes it here is ~no bueno~
