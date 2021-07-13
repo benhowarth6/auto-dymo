@@ -18,6 +18,21 @@ app.use('/tickets', ticketRoutes)
 const printRoutes = require('./lib/routes/print');
 app.use('/print', printRoutes);
 
+const checkAuth = require('./lib/util/httpHelpers/checkAuth');
+const returnCode = require('./lib/util/httpHelpers/returnCode');
+app.use('/restart', (req, res, next) => {
+
+  const authInfo = {
+    authKey: req.body.authKey
+  }
+
+  var authed = checkAuth(res, req, authInfo.authKey);
+  if (authed){
+    returnCode(200, res, authInfo);
+    //Restart app, not implemented lmfao
+  }
+
+})
 
 //Any request that makes it here is ~no bueno~
 app.use((req, res, next ) => {
