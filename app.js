@@ -35,11 +35,25 @@ app.use('/restart', (req, res, next) => {
 
 //Scraper deterrent
 app.use('/favicon.ico', (req, res, next) => {
+
+  //Log the IP of invalid requests - skimmer catching
+  var logIp = req.socket.remoteAddress;
+  //If the IP begins with "::ffff:", trim it off
+  if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7);
+  
+  console.log("\n" + getDateTime() + " Scraper: " + logIp);
   returnCode(404, res, req.body, "File does not exist. Stop scraping.")
 })
 
 app.use('/', (req, res, next) => {
-    returnCode(404, res, req.body, "Site does not exist. Stop scraping.")
+
+  //Log the IP of invalid requests - skimmer catching
+  var logIp = req.socket.remoteAddress;
+  //If the IP begins with "::ffff:", trim it off
+  if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7);
+
+  console.log("\n" + getDateTime() + " Scraper: " + logIp);
+  returnCode(404, res, req.body, "Site does not exist. Stop scraping.")
 })
 
 //Any request that makes it here is ~no bueno~
