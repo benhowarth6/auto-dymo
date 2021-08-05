@@ -11,6 +11,7 @@ This server is meant to be running on DJGorilla and SlimMonkey 24/7, and will ha
     * `morgan`
     * `nodemon`
 * `npm start` should be used to start the server, as this will listen for local changes to the code, and restart the server automatically.
+* The constant `printerName` inside of `lib/constants.js` will need to be updated to reflect the printer connected to the machine.
 
 ### **Valid HTTP requests**
 
