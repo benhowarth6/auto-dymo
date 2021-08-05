@@ -1,4 +1,3 @@
-
 ### **Overview**
 
 This server is meant to be running on DJGorilla and SlimMonkey 24/7, and will handle automatically printing tickets when necessary in the workflow. It also talks to the client program when a print or delete is asked.
@@ -67,7 +66,7 @@ This server is meant to be running on DJGorilla and SlimMonkey 24/7, and will ha
         }
         ```
     * Possible codes returned from **DELETE**:
-        * 200: The ticket was added successfully
+        * 200: The ticket was deleted successfully
         * 401: The authentication key provided was incorrect
         * 404: The syntax for the ticket number was incorrect, or the ticket does not exist
 <br>
@@ -121,7 +120,7 @@ This server is meant to be running on DJGorilla and SlimMonkey 24/7, and will ha
         }
         ```
     * Possible codes returned from **DELETE**:
-        * 200: The ticket was added successfully
+        * 200: The ticket was printed successfully
         * 401: The authentication key provided was incorrect
         * 404: The syntax for the ticket number was incorrect, or the ticket does not exist
     
