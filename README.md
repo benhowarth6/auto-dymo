@@ -112,11 +112,12 @@ This server is meant to be running on DJGorilla and SlimMonkey 24/7, and will ha
         ```javascript
         {
             "ticketNumber": "RITM0012345",
+            "user": "David Cole",
             "authKey": "[authentication key here]",
             "numberOfLabels": "[number of labels to be printed]"
         }
         ```
-    * The field 'numberOfLabels' is **required** in this case
+    * The field 'numberOfLabels' is **not required** in this case, and will default to 1
     * The data will be returned in the following format:
         ```javascript
         {
@@ -124,14 +125,15 @@ This server is meant to be running on DJGorilla and SlimMonkey 24/7, and will ha
             "ticketInfo": {
                 "ticketNumber": "RITM0012345",
                 "user": "User Name",
-                "authKey": "key123"
+                "authKey": "key123",
+                "numberOfLabels": "1"
             }
         }
         ```
-    * Possible codes returned from **DELETE**:
+    * Possible codes returned from **PUT**:
         * 200: The ticket was printed successfully
         * 401: The authentication key provided was incorrect
-        * 404: The syntax for the ticket number was incorrect, or the ticket does not exist
+        * 404: The syntax for the ticket number was incorrect
     
 
     
