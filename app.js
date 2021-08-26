@@ -14,20 +14,7 @@ const getDateTime = require('./lib/util/getDateTime');
 const printRoutes = require('./lib/routes/print');
 app.use('/print', printRoutes);
 
-const checkAuth = require('./lib/util/checkAuth');
 const returnCode = require('./lib/util/returnCode');
-app.use('/restart', (req, res, next) => {
-
-  const authInfo = {
-    authKey: req.body.authKey
-  }
-
-  var authed = checkAuth(res, req, authInfo.authKey);
-  if (authed){
-    returnCode(200, res, authInfo, "Restarting...");
-    //Restart app, not implemented lmfao
-  }
-})
 
 //Scraper deterrent
 app.use('/favicon.ico', (req, res, next) => {
