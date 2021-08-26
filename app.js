@@ -10,16 +10,12 @@ app.use(express.json());
 
 const getDateTime = require('./lib/util/getDateTime');
 
-//Route any /tickets requests
-const ticketRoutes = require('./lib/routes/tickets');
-app.use('/tickets', ticketRoutes)
-
 //Route any /print requests
 const printRoutes = require('./lib/routes/print');
 app.use('/print', printRoutes);
 
-const checkAuth = require('./lib/util/httpHelpers/checkAuth');
-const returnCode = require('./lib/util/httpHelpers/returnCode');
+const checkAuth = require('./lib/util/checkAuth');
+const returnCode = require('./lib/util/returnCode');
 app.use('/restart', (req, res, next) => {
 
   const authInfo = {
