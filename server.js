@@ -10,10 +10,6 @@ const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 
 //Listen on port (3000)
-
 if(!constants.testing) console.log("\n\n" + getDateTime() + " Server started and listening on port " + port + ":");
-else{
-    const style = 'font-weight: bold'
-    console.log("%c\n\n" + getDateTime() + " Server started in testing mode and listening on port " + port + ":", style);
-}
+else console.log("%c\n\n" + getDateTime() + " Server started in testing mode and listening on port " + port + ":", style);
 server.listen(port);
