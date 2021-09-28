@@ -10,6 +10,10 @@ This server is meant to be running on DJGorilla and SlimMonkey 24/7, and will ha
     * `dymojs`
     * `morgan`
     * `nodemon`
+    * `winston`
+    * `os`
+    * `express-winston`
+    * `pm2`
 * `npm start` should be used to start the server, as this will listen for local changes to the code, and restart the server automatically.
 * The constant `"printerName"` inside of `lib/constants.js` will need to be updated to reflect the printer connected to the machine.
     * For SlimMonkey, the printer name is `DYMO LabelWriter 330 Turbo-USB`. In constants: <br>

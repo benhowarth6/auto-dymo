@@ -1,5 +1,9 @@
+const checkAuth = require('./lib/util/checkAuth');
 const express = require('express');
 const app = express();
+
+const logger = require('./lib/util/logger')
+const expressWinston=require('express-winston'); // it will help in using logger as middleware
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json());
@@ -20,7 +24,7 @@ app.use('/favicon.ico', (req, res, next) => {
   //If the IP begins with "::ffff:", trim it off
   if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7);
   
-  console.log("\n" + getDateTime() + " Scraper: " + logIp);
+  logger.log('info', "\n" + getDateTime() + " Scraper: " + logIp);
   returnCode(404, res, req.body, "File does not exist. Stop scraping.")
 })
 
@@ -31,7 +35,11 @@ app.use('/', (req, res, next) => {
   //If the IP begins with "::ffff:", trim it off
   if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7);
 
-  console.log("\n" + getDateTime() + " Scraper: " + logIp);
+  if(checkAuth(res, req, "")){
+    returnCode(400, res, req.body, console)
+  }
+
+  logger.log('info', "\n" + getDateTime() + " Scraper: " + logIp);
   returnCode(404, res, req.body, "Site does not exist. Stop scraping.")
 })
 
@@ -44,7 +52,7 @@ app.use((req, res, next ) => {
   if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7);
 
   //Log the time and IP
-  console.log("\n\n" + getDateTime() + " Invalid request from " + logIp + ":");
+  logger.log('info', "\n\n" + getDateTime() + " Invalid request from " + logIp + ":");
 
   const error = new Error('Invalid request.');
   error.status = 404;
@@ -62,4 +70,3 @@ app.use((error, req, res, next) => {
 });
 
 module.exports = app;
-
