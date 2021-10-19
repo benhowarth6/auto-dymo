@@ -1,6 +1,5 @@
 const http = require('http');
 const app = require('./app');
-const getDateTime = require('./lib/util/getDateTime');
 var constants = require('./lib/constants');
 const logger = require('./lib/util/logger');
 
@@ -11,6 +10,7 @@ const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 
 const ConsoleWindow = require("node-hide-console-window");
+const getDateTime = require('./lib/util/getDateTime');
 
 //Listen on port (3000)
 logger.log('info', '\n');
