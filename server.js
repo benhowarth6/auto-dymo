@@ -17,7 +17,7 @@ logger.log('info', '\n');
 logger.log('info', "----------------------------------------------------------------");
 logger.log('info', "----------------------------------------------------------------");
 if(!constants.testing) logger.log('info', "\n\n" + getDateTime() + " Server started and listening on port " + port + ":");
-else logger.log('info', "%c\n\n" + getDateTime() + " Server started in testing mode and listening on port " + port + ":", style);
+else logger.log('info', "%c\n\n" + getDateTime() + " Server started in testing mode and listening on port " + port + ":");
 server.listen(port);
 
 if(!constants.testing) ConsoleWindow.hideConsole();

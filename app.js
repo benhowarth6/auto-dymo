@@ -2,10 +2,9 @@ const checkAuth = require('./lib/util/checkAuth');
 const express = require('express');
 const app = express();
 
-const logger = require('./lib/util/logger')
-const expressWinston=require('express-winston'); // it will help in using logger as middleware
+const logger = require('./lib/util/logger');
 
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 const getDateTime = require('./lib/util/getDateTime');
@@ -13,6 +12,10 @@ const getDateTime = require('./lib/util/getDateTime');
 //Route any /print requests
 const printRoutes = require('./lib/routes/print');
 app.use('/print', printRoutes);
+
+//Route any /cascade requests
+const cascadeRoutes = require('./lib/routes/cascade')
+app.use('/cascade', cascadeRoutes);
 
 const returnCode = require('./lib/util/returnCode');
 
@@ -25,7 +28,7 @@ app.use('/favicon.ico', (req, res, next) => {
   if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7);
   
   logger.log('info', "\n" + getDateTime() + " Scraper: " + logIp);
-  returnCode(404, res, req.body, "File does not exist. Stop scraping.")
+  returnCode(404, res, req.body, ":(")
 })
 
 app.use('/', (req, res, next) => {
@@ -40,7 +43,7 @@ app.use('/', (req, res, next) => {
   }
 
   logger.log('info', "\n" + getDateTime() + " Scraper: " + logIp);
-  returnCode(404, res, req.body, "Site does not exist. Stop scraping.")
+  returnCode(404, res, req.body, ":(")
 })
 
 //Any request that makes it here is ~no bueno~
