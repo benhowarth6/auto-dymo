@@ -16,7 +16,7 @@
     "express-winston": "^4.2.0",
     "morgan": "^1.10.0",
     "node-hide-console-window": "^2.1.0",
-    "nodemon": "^2.0.9",
+    "nodemon": "^2.0.15",
     "winston": "^2.4.5",
     "winston-papertrail": "^1.0.5"
   }

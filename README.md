@@ -14,12 +14,13 @@ This server is meant to be running on DJGorilla and SlimMonkey 24/7, and will ha
     * `winston`
     * `express-winston`
 * `npm start` should be used to start the server, as this will listen for local changes to the code, and restart the server automatically.
-* The `.env` file will need to be created in the root of the server (same folder location as `app.js`) **only if it does not already exist**, and must have the following properties defined:
+* The `.env` file will need to be created in the root of the server (same location as `app.js`) **only if it does not already exist**, and must have the following properties defined:
     * `AUTODYMO_AUTH_KEY= (Authorization key)`
     * `AUTODYMO_PRINTER_NAME= (Friendly name of Dymo printer, ex: 'DYMO LabelWriter 450')`
     * `AUTODYMO_IP_WHITELIST= (IP subnet that should be whitelisted, ex: 192.168.4)` 
     * `LOGGER_URL= (URL for Papertrails)`
     * `LOGGER_PORT= (Port for Papertrails)`
+    * `TEST_MODE= (Whether or not terminal output should be displayed, should be true or false)`
     * If port 3000 is not being used for runtime, `PORT= ...` must also be defined with a valid port number (0 to 65353).
 
 
