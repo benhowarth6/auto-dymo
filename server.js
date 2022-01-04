@@ -21,3 +21,4 @@ else logger.log('info', "%c\n\n" + getDateTime() + " Server started in testing m
 server.listen(port);
 
 if(!constants.testing) ConsoleWindow.hideConsole();
+else ConsoleWindow.showConsole();

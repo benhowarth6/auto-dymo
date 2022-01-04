@@ -4,31 +4,28 @@ This server is meant to be running on DJGorilla and SlimMonkey 24/7, and will ha
 
 ### **Setup for the server**
 
-* Port 3000 will need to be opened, or there will need to be another port [set as an environment variable](https://stackoverflow.com/questions/13333221/how-to-change-value-of-process-env-port-in-node-js).
+* Port 3000 will need to be opened, or there will need to be another port set as a local environment variable.
 * The following dependencies are currently required, and must be installed before use (`npm install -g [packagename]`). An up-to-date list of dependencies can always be found at the botton of `./package.json`:
     * `express`
+    * `dotenv`
     * `dymojs`
     * `morgan`
     * `nodemon`
     * `winston`
     * `express-winston`
 * `npm start` should be used to start the server, as this will listen for local changes to the code, and restart the server automatically.
-* The constant `"printerName"` inside of `lib/constants.js` will need to be updated to reflect the printer connected to the machine.
-    * For SlimMonkey, the printer name is `DYMO LabelWriter 330 Turbo-USB`. In constants: <br>
-        ```javascript
-        define("printerName", 'DYMO LabelWriter 330 Turbo-USB');
-        ```
-    * For DJGorilla, the printer name is `DYMO LabelWriter 450`. In constants: <br>
-        ```javascript
-        define("printerName", 'DYMO LabelWriter 450');
-        ```
+* The `.env` file will need to be created in the root of the server (same folder location as `app.js`) **only if it does not already exist**, and must have the following properties defined:
+    * `AUTODYMO_AUTH_KEY= (Authorization key)`
+    * `AUTODYMO_PRINTER_NAME= (Friendly name of Dymo printer, ex: 'DYMO LabelWriter 450')`
+    * `AUTODYMO_IP_WHITELIST= (IP subnet that should be whitelisted, ex: 192.168.4)` 
+    * `LOGGER_URL= (URL for Papertrails)`
+    * `LOGGER_PORT= (Port for Papertrails)`
+    * If port 3000 is not being used for runtime, `PORT= ...` must also be defined with a valid port number (0 to 65353).
+
 
 ### **Sending a Print Request to the Server**
 
 ## **Full HTTP Address: `[hostname]:3000/print`**
-
-* For DSTC tickets, the full address is `djgorilla.main.ad.rit.edu:3000/print`
-* For Resnet tickets, the full address is `judgemonkey.rit.edu:3000/print`
 
 * **PUT**
     * Print a label for a ticket given an RITM or INC number, and a user's name
@@ -36,7 +33,7 @@ This server is meant to be running on DJGorilla and SlimMonkey 24/7, and will ha
         ```javascript
         {
             "ticketNumber": "RITM0012345",
-            "user": "David Cole",
+            "user": "FirstName LastName",
             "authKey": "[authentication key here]",
             "numberOfLabels": "[number of labels to be printed]"
         }
