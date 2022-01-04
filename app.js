@@ -13,19 +13,13 @@ const getDateTime = require('./lib/util/getDateTime');
 const printRoutes = require('./lib/routes/print');
 app.use('/print', printRoutes);
 
-//Route any /cascade requests
-const cascadeRoutes = require('./lib/routes/cascade')
-app.use('/cascade', cascadeRoutes);
-
 const returnCode = require('./lib/util/returnCode');
 
 //Scraper deterrent
 app.use('/favicon.ico', (req, res, next) => {
 
   //Log the IP of invalid requests - skimmer catching
-  var logIp = req.socket.remoteAddress;
-  //If the IP begins with "::ffff:", trim it off
-  if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7);
+  var logIp = req.socket.remoteAddress.replace("::ffff",'');
   
   logger.log('info', "\n" + getDateTime() + " Scraper: " + logIp);
   returnCode(404, res, req.body, ":(")
@@ -34,9 +28,7 @@ app.use('/favicon.ico', (req, res, next) => {
 app.use('/', (req, res, next) => {
 
   //Log the IP of invalid requests - skimmer catching
-  var logIp = req.socket.remoteAddress;
-  //If the IP begins with "::ffff:", trim it off
-  if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7);
+  var logIp = req.socket.remoteAddress.replace("::ffff",'');
 
   if(checkAuth(res, req, "")){
     returnCode(400, res, req.body, console)
@@ -50,9 +42,7 @@ app.use('/', (req, res, next) => {
 app.use((req, res, next ) => {
 
   //Log the IP of invalid requests - skimmer catching
-  var logIp = req.socket.remoteAddress;
-  //If the IP begins with "::ffff:", trim it off
-  if(logIp.substr(0, 7) === '::ffff:') logIp = logIp.substr(7);
+  var logIp = req.socket.remoteAddress.replace("::ffff",'');
 
   //Log the time and IP
   logger.log('info', "\n\n" + getDateTime() + " Invalid request from " + logIp + ":");
