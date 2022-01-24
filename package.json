@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --no-warnings server.js"
+    "prestart": "git pull && npm install",
+    "start": "git pull && nodemon --no-warnings server.js"
   },
   "author": "David Cole",
   "license": "ISC",
