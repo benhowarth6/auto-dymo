@@ -53,7 +53,10 @@ This server is meant to be running on a shared computer or server constantly, an
 
 ### **Server Startup**
 
-* **`npm start`** should be used to start the server, as using [nodemon](https://www.npmjs.com/package/nodemon), the server will listen for local changes to the code, and restart the server automatically.
+* **`npm start`** should be used to start the server, as npm is setup to:
+
+    * Pull the latest version of the server from GitHub before starting the server.
+    * Using [nodemon](https://www.npmjs.com/package/nodemon), listen for local changes to code, and restart the server when changes are detected.  
 * The server should be running all the time, meaning a startup script to run the server may be ideal. The following is a very basic batch script (theoretically cross-os) that would be placed in the startup folder for a user or the system:
 
     ```
