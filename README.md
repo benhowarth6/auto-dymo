@@ -12,7 +12,9 @@ This server is meant to be running on a shared computer or server constantly, an
     npm -v
     ```
 ---
-2. The DYMO integration makes use of the DYMO WebService. Install [DYMO Label](https://www.dymo.com/support?cfid=user-guide), as the WebService is packaged in this installation.
+2. The DYMO integration makes use of the DYMO WebService. Install [DYMO Label](https://www.dymo.com/support?cfid=user-guide), as the WebService is packaged in this installation. As part of the DYMO setup for this server, you will need to configure a 'Label Format', which will be used to configure how the label looks when it is printed. For information on how to acquire this XML file, please see the [dymojs Documentation](https://openbase.com/js/dymojs/documentation).
+
+**Once you have this XML file, it will need to be placed in root folder ../auto-dymo/ (the same directory as server.js)**
 ---
 3. Clone the source, and open the root directory in a terminal window.
 ---
@@ -38,6 +40,7 @@ This server is meant to be running on a shared computer or server constantly, an
     LOGGER_URL= #(URL for Papertrails)
     LOGGER_PORT= #(Port for Papertrails)
     TEST_MODE= #(Whether or not terminal output should be displayed, should be true or false)
+
     ```
 
     If you choose to use a custom port for the server (defaulted to 3000), you will also need to define the port with a valid (0 to 65353), unused port number;
