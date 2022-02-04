@@ -12,7 +12,20 @@ This server is meant to be running on a shared computer or server constantly, an
     npm -v
     ```
 ---
-2. The DYMO integration makes use of the DYMO WebService. Install [DYMO Label](https://www.dymo.com/support?cfid=user-guide), as the WebService is packaged in this installation. As part of the DYMO setup for this server, you will need to configure a 'Label Format', which will be used to configure how the label looks when it is printed. For information on how to acquire this XML file, please see the [dymojs Documentation](https://openbase.com/js/dymojs/documentation).
+2. The DYMO integration makes use of the DYMO WebService. Install [DYMO Label](https://www.dymo.com/support?cfid=user-guide), as the WebService is packaged in this installation. As part of the DYMO setup for this server, you will need to configure a 'Label Format', which will be used to configure how the label looks when it is printed. For information on how to acquire this XML file, please see the [dymojs Documentation](https://openbase.com/js/dymojs/documentation). Two lines of text are printed by the dymojs integration: `name`, and `ticketNumber`. Setup for this in the xml is as follows:
+
+    ```
+    <StyledText>
+        <Element>
+            <String>${name}\n</String>
+            <Attributes> ... </Attributes>
+        </Element>
+        <Element>
+            <String>${ticketNumber}</String>
+            <Attributes> ... </Attributes>
+        </Element>
+    </StyledText>
+    ```
 
 **Once you have this XML file, it will need to be placed in root folder ../auto-dymo/ (the same directory as server.js)**
 ---
