@@ -27,7 +27,22 @@ This server is meant to be running on a shared computer or server constantly, an
     </StyledText>
     ```
 
-**Once you have this XML file, it will need to be placed in root folder ../auto-dymo/ (the same directory as server.js)**
+    **Once you have this XML file, it will need to be placed in root folder ../auto-dymo/ (the same directory as server.js)**
+    
+    It is also important that the XML contains a `\` character at the end of each line (so that escape characters as parsed), as such:
+    
+    ```
+    <StyledText>\
+        <Element>\
+            <String>${name}\n</String>\
+            <Attributes> ... </Attributes>\
+        </Element>\
+        <Element>\
+            <String>${ticketNumber}</String>\
+            <Attributes> ... </Attributes>\
+        </Element>\
+    </StyledText>\
+    ```
 ---
 3. Clone the source, and open the root directory in a terminal window.
 ---
