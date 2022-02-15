@@ -1,4 +1,7 @@
 node_modules
 .env
 .vscode
-label_xml.xml
+
+#Ignore all XML docs, except for default.xml
+*.xml
+!*default.xml

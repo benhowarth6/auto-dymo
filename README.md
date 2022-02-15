@@ -12,37 +12,20 @@ This server is meant to be running on a shared computer or server constantly, an
     npm -v
     ```
 ---
-2. The DYMO integration makes use of the DYMO WebService. Install [DYMO Label](https://www.dymo.com/support?cfid=user-guide), as the WebService is packaged in this installation. As part of the DYMO setup for this server, you will need to configure a 'Label Format', which will be used to configure how the label looks when it is printed. For information on how to acquire this XML file, please see the [dymojs Documentation](https://openbase.com/js/dymojs/documentation). Two lines of text are printed by the dymojs integration: `name`, and `ticketNumber`. Setup for this in the xml is as follows:
+2. The DYMO integration makes use of the DYMO WebService. Install [DYMO Label](https://www.dymo.com/compatibility-chart.html), as the WebService is packaged in this installation. As part of the DYMO setup for this server, you will need to configure a 'Label Format', which will be used to configure how the label looks when it is printed. For information on how to acquire this XML file, please see the [dymojs Documentation](https://openbase.com/js/dymojs/documentation). Two lines of text are printed by the dymojs integration: `name`, and `ticketNumber`. Both use one `<Element>`, however. Setup for this in the xml is as follows:
 
     ```
     <StyledText>
         <Element>
-            <String>${name}\n</String>
+            <String>(You can put any text here, it will be replaced)</String>
             <Attributes> ... </Attributes>
         </Element>
         <Element>
-            <String>${ticketNumber}</String>
-            <Attributes> ... </Attributes>
-        </Element>
     </StyledText>
     ```
 
-    **Once you have this XML file, it will need to be placed in root folder ../auto-dymo/ (the same directory as server.js)**
+    **Once you have this XML file, it will need to be placed in the `label_xmls` folder: `./auto-dymo/label_xmls`. Once the file is present here, you will need to update the `.env` file with the full name of the file.**
     
-    It is also important that the XML contains a `\` character at the end of each line (so that escape characters as parsed), as such:
-    
-    ```
-    <StyledText>\
-        <Element>\
-            <String>${name}\n</String>\
-            <Attributes> ... </Attributes>\
-        </Element>\
-        <Element>\
-            <String>${ticketNumber}</String>\
-            <Attributes> ... </Attributes>\
-        </Element>\
-    </StyledText>\
-    ```
 ---
 3. Clone the source, and open the root directory in a terminal window.
 ---
@@ -56,6 +39,7 @@ This server is meant to be running on a shared computer or server constantly, an
     * [`nodemon`](https://www.npmjs.com/package/nodemon)
     * [`winston`](https://www.npmjs.com/package/winston)
     * [`winston-papertrail`](https://www.npmjs.com/winston-papertrail)
+    * [`xml-js`](https://www.npmjs.com/package/xml-js)
 ---
 5. The server is setup to log all events and information to an external [Papertrail](https://papertrailapp.com/) log. To set this up, create a Papertrail account. In <kbd>Settings</kbd> > [<kbd>Log Destiniations</kbd>](https://papertrailapp.com/account/destinations), you will have the option to <kbd>Create Log Destiniation</kbd>. Once you do, you will be provided with a destination URL and a destination port. This information will be needed in the next step.**<sup>[1](#papertrailfootnote)</sup>**
 ---
@@ -68,6 +52,7 @@ This server is meant to be running on a shared computer or server constantly, an
     LOGGER_URL= #(URL for Papertrails)
     LOGGER_PORT= #(Port for Papertrails)
     TEST_MODE= #(Whether or not terminal output should be displayed, should be true or false)
+    DYMO_SERVICE_PATH = #"(Path to DYMO.DLS.Printing.Host.exe)" [eg: If the webservice is located in "C:\Program Files\DYMO\DYMO Label\DYMO.DLS.Printing.Host.exe", then this should be: "C:/Program Files/DYMO/DYMO Label/WebService/"]
 
     ```
 
@@ -75,6 +60,12 @@ This server is meant to be running on a shared computer or server constantly, an
 
     ```
     PORT= #(Server port number)
+    ```
+
+    If you are using a custom XML file for label configurations, you will need to place the file in `./auto-dymo/label_xmls/`, and specify the file's name. Make sure to include the `.xml` file extension in the name.;
+
+    ```
+    XML_FILE_NAME= #(Name of XML file) [eg: my_label_config.xml]
     ```
 
     For formatting help, or other issues with the **`.env`** file, see [Node's documentation](https://nodejs.dev/learn/how-to-read-environment-variables-from-nodejs).
