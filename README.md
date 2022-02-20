@@ -12,7 +12,7 @@ This server is meant to be running on a shared computer or server constantly, an
     npm -v
     ```
 ---
-2. The DYMO integration makes use of the DYMO WebService. Install [DYMO Label](https://www.dymo.com/compatibility-chart.html), as the WebService is packaged in this installation. As part of the DYMO setup for this server, you will need to configure a 'Label Format', which will be used to configure how the label looks when it is printed. For information on how to acquire this XML file, please see the [dymojs Documentation](https://openbase.com/js/dymojs/documentation). Two lines of text are printed by the dymojs integration: `name`, and `ticketNumber`. Both use one `<Element>`, however. Setup for this in the xml is as follows:
+2. The DYMO integration makes use of the DYMO WebService. Install [DYMO Label](https://www.dymo.com/compatibility-chart.html), as the WebService is packaged in this installation. As part of the DYMO setup for this server, you will need to configure a 'Label Format', which will be used to configure how the label looks when it is printed. For information on how to acquire this XML file, please see the [dymojs Documentation](https://openbase.com/js/dymojs/documentation). Two lines of text are printed by the dymojs integration: `name`, and `ticketNumber`. Although both get inserted in the same `<Element>`, the newline character will split them into separate elements, requiring two definitions:
 
     ```
     <StyledText>
@@ -21,8 +21,13 @@ This server is meant to be running on a shared computer or server constantly, an
             <Attributes> ... </Attributes>
         </Element>
         <Element>
+            <String>(Leave the second element in place, with the same formatting)</String>
+            <Attributes> ... </Attributes>
+        </Element>
     </StyledText>
     ```
+
+    Take a look at `./label_xmls/default.xml` for a detailed example of how this XML file should look.
 
     **Once you have this XML file, it will need to be placed in the `label_xmls` folder: `./auto-dymo/label_xmls`. Once the file is present here, you will need to update the `.env` file with the full name of the file.**
     
