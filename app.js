@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const printRoutes = require('./lib/routes/print');
-const returnCode = require('./lib/util/returnCode');
-const logger = require('./lib/util/logger');
+const returnCode = require('./lib/util/http/returnCode');
+const logger = require('./lib/util/other/logger');
 
 //Route any /print requests
 app.use(express.urlencoded({extended: false}));
