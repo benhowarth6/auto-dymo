@@ -1,7 +1,7 @@
 const http = require('http');
 const app = require('./app');
-var constants = require('./lib/constants');
-const logger = require('./lib/util/logger');
+var constants = require('./lib/util/other/constants');
+const logger = require('./lib/util/other/logger');
 
 //Can overrwite port with an ENV var, otherwise will use 3000
 const port = process.env.PORT || 3000;
