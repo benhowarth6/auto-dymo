@@ -77,6 +77,10 @@ This server is meant to be running on a shared computer or server constantly, an
     DYMO_HOSTNAME= #(Hostname of DYMO WebService)
     DYMO_PORT= #(Port of DYMO WebService)
     ```
+    If you are setting up the server to run on HTTPS, instead of HTTP, you will need to define the standard. (See step 8 for key placement)
+    ```
+    AUTODYMO_PROTOCOL=#(Protocol for server, i.e http or https)
+    ```
 
     <details>
     <summary>(<b><i>Example <code>.env</code> File</i></b>)</summary>
@@ -84,6 +88,7 @@ This server is meant to be running on a shared computer or server constantly, an
 
         AUTODYMO_AUTH_KEY= authKey123 
         AUTODYMO_IP_WHITELIST= 192.168.1.4
+        AUTODYMO_PROTOCOL=https
         PORT= 4567
         TEST_MODE= false
 
@@ -99,6 +104,13 @@ This server is meant to be running on a shared computer or server constantly, an
 
 ---
 7. Port 3000 (or the port defined in the environment variables) will need to be opened. Depending on the local machine's firewall, and your networking setup, this process may wildly vary. The base functionality requires that HTTP requests can be both sent and received using the port.
+---
+8. If the server is being run on HTTPS, a certificate and key will need to be generated and placed in the `/certs` directory. Naming is important. The certification should be named `autodymo.crt`, and the key should be named `autodymo.key`. Although OpenSSL can be used to generate a key:
+
+    ```
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout autodymo.key -out autodymo.crt
+    ```
+It is highly recommended that you do not use a self-signed certificate, as this defeats the purpose of the HTTPS protocol.
 ---
 
 ### **Server Startup**
