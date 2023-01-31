@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DieCutLabel Version="8.0" Units="twips">
   <PaperOrientation>Landscape</PaperOrientation>
-  <Id>LargeShipping</Id>
-  <PaperName>30256 Shipping</PaperName>
+  <Id>LargeAddress</Id>
+  <PaperName>99012 Large Address</PaperName>
   <DrawCommands>
-    <RoundRectangle X="0" Y="0" Width="3331" Height="5715" Rx="270" Ry="270"/>
+    <RoundRectangle X="0" Y="0" Width="2025" Height="5020" Rx="270" Ry="270" />
   </DrawCommands>
   <ObjectInfo>
     <TextObject>
@@ -16,23 +16,23 @@
       <IsMirrored>False</IsMirrored>
       <IsVariable>False</IsVariable>
       <HorizontalAlignment>Left</HorizontalAlignment>
-      <VerticalAlignment>Middle</VerticalAlignment>
-      <TextFitMode>AlwaysFit</TextFitMode>
+      <VerticalAlignment>Top</VerticalAlignment>
+      <TextFitMode>ShrinkToFit</TextFitMode>
       <UseFullFontHeight>True</UseFullFontHeight>
       <Verticalized>False</Verticalized>
       <StyledText>
-        <Element>
+      <Element>
           <String>First Line</String>
           <Attributes>
-            <Font Family="Helvetica" Size="13" 
+            <Font Family="Helvetica" Size="11" 
             	Bold="False" Italic="False" Underline="False" Strikeout="False"/>
             <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
           </Attributes>
         </Element>
         <Element>
-          <String>Leave this here, for some reason if there's a newline, there needs to be a second string element</String>
+          <String></String>
           <Attributes>
-            <Font Family="Helvetica" Size="13" 
+            <Font Family="Helvetica" Size="10" 
             	Bold="False" Italic="False" Underline="False" Strikeout="False"/>
             <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
           </Attributes>

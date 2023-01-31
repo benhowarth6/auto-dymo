@@ -4,6 +4,14 @@ const printRoutes = require('./lib/routes/print');
 const returnCode = require('./lib/util/http/returnCode');
 const logger = require('./lib/util/other/logger');
 
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Methods', 'PUT');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+  });
+
 //Route any /print requests
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
